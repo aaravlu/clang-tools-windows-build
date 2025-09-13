@@ -16,6 +16,13 @@ jobs:
           ref: release/19.x # 指定版本tag
           path: llvm-project
 
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          toolset: 14.29
+          sdk: 10.0.19041.0
+
       - name: Configure CMake
         run: |
           cmake -S llvm-project/llvm -B build -Thost=x64 `
