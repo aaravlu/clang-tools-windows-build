@@ -23,13 +23,7 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF `
             -DCMAKE_BUILD_TYPE=MinSizeRel `
             -DCMAKE_CXX_FLAGS="/MP /std:c++14" `
-            -DLLVM_USE_CRT_MINSIZEREL="MT" `
-            -DLLVM_TOOL_CLANG_BUILD=ON `
-            -DLLVM_TOOL_CLANGD_BUILD=ON `
-            -DLLVM_TOOL_CLANG_TIDY_BUILD=ON `
-            -DLLVM_TOOL_CLANG_FORMAT_BUILD=ON `
-            -DLLVM_TOOL_CLANG_REFACTOR_BUILD=OFF `
-            -DLLVM_TOOL_CLANG_IMPORT_TEST_BUILD=OFF
+            -DLLVM_USE_CRT_MINSIZEREL="MT"
 
       - name: Build clang tools
         run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
