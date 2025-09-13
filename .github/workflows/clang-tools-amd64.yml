@@ -1,0 +1,40 @@
+name: clang-tools-windows-build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout LLVM
+      uses: actions/checkout@v4
+      with:
+        repository: llvm/llvm-project
+        ref: release/19.x  # 指定版本tag
+        path: llvm-project
+
+    - name: Configure CMake
+      run: cmake -S llvm/llvm-project -B build -Thost=x64 -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_CXX_FLAGS="/MP /std:c++14" -DLLVM_USE_CRT_MINSIZEREL="MT"
+
+    - name: Build clang tools
+      run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
+
+    - name: Smoke test
+      shell: cmd
+      run: |
+        cd build/MinSizeRel/bin
+        clangd.exe --version
+        clang-format.exe --version
+        clang-tidy.exe --version
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: clang-tools
+        path: |
+          build/MinSizeRel/bin/clangd.exe
+          build/MinSizeRel/bin/clang-format.exe
+          build/MinSizeRel/bin/clang-tidy.exe
