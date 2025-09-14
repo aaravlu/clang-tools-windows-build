@@ -9,51 +9,56 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - name: Checkout LLVM
-        uses: actions/checkout@v4
-        with:
-          repository: llvm/llvm-project
-          ref: release/19.x # 指定版本tag
-          path: llvm-project
-
-      - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          toolset: 14.29
-          sdk: 10.0.19041.0
-
-      - name: Configure CMake
+      - name: List installed Windows SDKs
+        shell: pwsh
         run: |
-          cmake -S llvm-project/llvm -B build `
-            -G "Visual Studio 16 2019" `
-            -A x64 `
-            -T v142 `
-            -DCMAKE_SYSTEM_VERSION=10.0.19041.0 `
-            -DBUILD_SHARED_LIBS=OFF `
-            -DLLVM_ENABLE_ASSERTIONS=OFF `
-            -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
-            -DCMAKE_BUILD_TYPE=MinSizeRel `
-            -DLLVM_USE_CRT_MINSIZEREL="MT" `
-            -DCMAKE_CXX_FLAGS="/std:c++14 /MP /Oi /O2 /Gy /GL /Gw /fp:fast /GS-" `
-            -DCMAKE_EXE_LINKER_FLAGS="/LTCG /MANIFEST:NO /MERGE:_RDATA=.rdata /OPT:REF /OPT:ICF"
+          Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin" -Directory | Select-Object -ExpandProperty Name
 
-      - name: Build clang tools
-        run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
+      # - name: Checkout LLVM
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: llvm/llvm-project
+      #     ref: release/19.x # 指定版本tag
+      #     path: llvm-project
 
-      - name: Smoke test
-        shell: cmd
-        run: |
-          cd build/MinSizeRel/bin
-          clangd.exe --version
-          clang-format.exe --version
-          clang-tidy.exe --version
+      # - name: Setup MSVC
+      #   uses: ilammy/msvc-dev-cmd@v1
+      #   with:
+      #     arch: x64
+      #     toolset: 14.29
+      #     sdk: 10.0.19041.0
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: clang-tools
-          path: |
-            build/MinSizeRel/bin/clangd.exe
-            build/MinSizeRel/bin/clang-format.exe
-            build/MinSizeRel/bin/clang-tidy.exe
+      # - name: Configure CMake
+      #   run: |
+      #     cmake -S llvm-project/llvm -B build `
+      #       -G "Visual Studio 16 2019" `
+      #       -A x64 `
+      #       -T v142 `
+      #       -DCMAKE_SYSTEM_VERSION=10.0.19041.0 `
+      #       -DBUILD_SHARED_LIBS=OFF `
+      #       -DLLVM_ENABLE_ASSERTIONS=OFF `
+      #       -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
+      #       -DCMAKE_BUILD_TYPE=MinSizeRel `
+      #       -DLLVM_USE_CRT_MINSIZEREL="MT" `
+      #       -DCMAKE_CXX_FLAGS="/std:c++14 /MP /Oi /O2 /Gy /GL /Gw /fp:fast /GS-" `
+      #       -DCMAKE_EXE_LINKER_FLAGS="/LTCG /MANIFEST:NO /MERGE:_RDATA=.rdata /OPT:REF /OPT:ICF"
+
+      # - name: Build clang tools
+      #   run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
+
+      # - name: Smoke test
+      #   shell: cmd
+      #   run: |
+      #     cd build/MinSizeRel/bin
+      #     clangd.exe --version
+      #     clang-format.exe --version
+      #     clang-tidy.exe --version
+
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: clang-tools
+      #     path: |
+      #       build/MinSizeRel/bin/clangd.exe
+      #       build/MinSizeRel/bin/clang-format.exe
+      #       build/MinSizeRel/bin/clang-tidy.exe
