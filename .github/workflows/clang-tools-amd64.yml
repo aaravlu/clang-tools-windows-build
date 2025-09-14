@@ -31,7 +31,8 @@ jobs:
             -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
             -DCMAKE_BUILD_TYPE=Release `
             -DLLVM_USE_CRT_MINSIZEREL="MT" `
-            -DCMAKE_CXX_FLAGS="/std:c++14 /MP /arch:AVX2 /Oi /O2 /Gy /GL /Gw /fp:fast /GS-" `
+            -DCMAKE_CXX_FLAGS="/std:c++14 /MP /Oi /O2 /Gy /GL /Gw /fp:fast /GS-" `
+            -DCMAKE_EXE_LINKER_FLAGS="/LTCG /MANIFEST:NO /MERGE:_RDATA=.rdata /OPT:REF /OPT:ICF"
 
       - name: Build clang tools
         run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
