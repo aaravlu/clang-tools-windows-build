@@ -24,7 +24,7 @@ jobs:
           sdk: 10.0.19041.0
 
       - name: Setup Windows SDK
-      - uses: GuillaumeFalourd/setup-windows10-sdk-action@v2
+        uses: GuillaumeFalourd/setup-windows10-sdk-action@v2
         with:
           sdk-version: 19041
 
