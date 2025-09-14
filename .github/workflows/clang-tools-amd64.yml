@@ -23,17 +23,17 @@ jobs:
           toolset: 14.29
           sdk: 10.0.19041.0
 
-      - name: Patch LLVM SDK
-        run: |
-          $scriptPath = "${{ github.workspace }}/patch-sdk.ps1"
-          pwsh -File $scriptPath -RootPath "${{ github.workspace }}/llvm-project/llvm"
+      # - name: Patch LLVM SDK
+      #   run: |
+      #     $scriptPath = "${{ github.workspace }}/patch-sdk.ps1"
+      #     pwsh -File $scriptPath -RootPath "${{ github.workspace }}/llvm-project/llvm"
 
       - name: Configure CMake
         run: |
           cmake -S llvm-project/llvm -B build `
             -A x64 `
             -T v142 `
-            -DCMAKE_SYSTEM_VERSION=10.0.19041.0 `
+            -DCMAKE_SYSTEM_VERSION="10.0.19041.0" `
             -DBUILD_SHARED_LIBS=OFF `
             -DLLVM_ENABLE_ASSERTIONS=OFF `
             -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
