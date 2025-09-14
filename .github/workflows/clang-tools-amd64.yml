@@ -21,15 +21,12 @@ jobs:
         with:
           arch: x64
           toolset: 14.29
-          sdk: 10.0.19041.0
 
       - name: Configure CMake
         run: |
           cmake -S llvm-project/llvm -B build `
-            -DCMAKE_SYSTEM_VERSION="10.0.19041.0" `
             -T v142 `
             -A x64 `
-            -G "Visual Studio 16 2019" `
             -DBUILD_SHARED_LIBS=OFF `
             -DLLVM_ENABLE_ASSERTIONS=OFF `
             -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
