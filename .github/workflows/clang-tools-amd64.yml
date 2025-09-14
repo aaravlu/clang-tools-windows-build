@@ -23,13 +23,10 @@ jobs:
           toolset: 14.29
           sdk: 10.0.19041.0
 
-      - name: Setup Windows SDK
-        uses: GuillaumeFalourd/setup-windows10-sdk-action@v2
-        with:
-          sdk-version: 19041
-
       - name: Configure CMake
         run: |
+          pwsh .\patch-sdk.ps1 -RootPath "llvm-project/llvm"
+
           cmake -S llvm-project/llvm -B build `
             -A x64 `
             -T v142 `
