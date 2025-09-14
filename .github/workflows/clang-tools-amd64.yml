@@ -25,7 +25,10 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S llvm-project/llvm -B build -A x64 -T v142 `
+          cmake -S llvm-project/llvm -B build `
+            -G "Visual Studio 16 2019" `
+            -A x64 `
+            -T v142 `
             -DCMAKE_SYSTEM_VERSION=10.0.19041.0 `
             -DBUILD_SHARED_LIBS=OFF `
             -DLLVM_ENABLE_ASSERTIONS=OFF `
