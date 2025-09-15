@@ -16,10 +16,17 @@ jobs:
           ref: release/19.x
           path: llvm-project
 
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          sdk: 10.0.19041.0
+
       - name: Configure CMake
         run: |
           cmake -S llvm-project/llvm -B build `
             -A x64 `
+            -DCMAKE_SYSTEM_VERSION="10.0.19041.0" `
             -DBUILD_SHARED_LIBS=OFF `
             -DLLVM_ENABLE_ASSERTIONS=OFF `
             -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
