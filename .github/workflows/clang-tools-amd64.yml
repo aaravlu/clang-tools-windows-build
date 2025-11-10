@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: llvm/llvm-project
-          ref: release/19.x
+          ref: refs/tags/llvmorg-19.1.7
           path: llvm-project
 
       - name: Setup MSVC
@@ -32,7 +32,7 @@ jobs:
             -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
             -DCMAKE_BUILD_TYPE=MinSizeRel `
             -DLLVM_USE_CRT_MINSIZEREL="MT" `
-            -DCMAKE_CXX_FLAGS="/std:c++14 /MP /Oi /O2 /Gy /GL /Gw /fp:fast /GS-" `
+            -DCMAKE_CXX_FLAGS="/std:c++14 /MP /Oi /Os /Gy /GL /Gw /fp:fast /GS-" `
             -DCMAKE_EXE_LINKER_FLAGS="/LTCG /MANIFEST:NO /MERGE:_RDATA=.rdata /OPT:REF /OPT:ICF"
 
       - name: Build clang tools
