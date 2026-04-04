@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout LLVM
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: llvm/llvm-project
           ref: refs/tags/llvmorg-19.1.7
@@ -39,7 +39,7 @@ jobs:
         run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: clang-tools
           path: |
