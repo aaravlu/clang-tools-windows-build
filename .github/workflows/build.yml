@@ -32,7 +32,8 @@ jobs:
             -D LLVM_ENABLE_PROJECTS="clang;clang-tools-extra" `
             -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded `
             -D CMAKE_ASM_MASM_FLAGS="/nologo" `
-            -D CMAKE_BUILD_TYPE=MinSizeRel
+            -D CMAKE_BUILD_TYPE=MinSizeRel `
+            -D CMAKE_C_FLAGS="/arch:znver3"
 
       - name: Build clang tools
         run: cmake --build build --config MinSizeRel --target clangd clang-format clang-tidy
